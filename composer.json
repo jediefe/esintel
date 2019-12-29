@@ -19,8 +19,7 @@
     "require": {
         "eveseat/services": "^3.0",
         "eveseat/web": "^3.0",
-        "eveseat/api": "^3.0",
-        "lawin/esintel": "^1.0"
+        "eveseat/api": "^3.0"
     },
     "extra": {
         "laravel": {
