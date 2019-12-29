@@ -153,7 +153,7 @@ class EsintelServiceProvider extends AbstractSeatPlugin
     private function addRoutes()
     {
         if (! $this->app->routesAreCached()) {
-            include __DIR__ . '/Http/routes.php';
+            include __DIR__ . '/http/routes.php';
         }
     }
 
