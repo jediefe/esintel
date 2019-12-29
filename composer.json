@@ -1,8 +1,9 @@
 {
     "name": "lawin/esintel",
+    "version": "0.1",
     "description": "RHP's ES intel plugin for SeAT",
     "type": "seat-plugin",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "license": "GPL-3.0-or-later",
     "authors": [
         {
