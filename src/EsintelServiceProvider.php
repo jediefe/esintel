@@ -38,13 +38,13 @@ class EsintelServiceProvider extends AbstractSeatPlugin
      */
     public function boot(Router $router)
     {
-        $this->addCommands();
+        // $this->addCommands();
         $this->addMigrations();
         $this->addRoutes();
-        $this->addViews();
-        $this->addTranslations();
-        $this->addApiEndpoints();
-        $this->addEvents();
+        // $this->addViews();
+        // $this->addTranslations();
+        // $this->addApiEndpoints();
+        // $this->addEvents();
     }
 
     /**
@@ -117,7 +117,7 @@ class EsintelServiceProvider extends AbstractSeatPlugin
      */
     public function getVersion(): string
     {
-        return config('seat-connector.config.version');
+        return config('esintel.config.version');
     }
 
     /**
@@ -131,21 +131,21 @@ class EsintelServiceProvider extends AbstractSeatPlugin
     /**
      * Register cli commands
      */
-    private function addCommands()
-    {
-        $this->commands([
-            DriverUpdateSets::class,
-            DriverApplyPolicies::class,
-        ]);
-    }
+    // private function addCommands()
+    // {
+    //     $this->commands([
+    //         DriverUpdateSets::class,
+    //         DriverApplyPolicies::class,
+    //     ]);
+    // }
 
     /**
      * Register views
      */
-    private function addViews()
-    {
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'esintel');
-    }
+    // private function addViews()
+    // {
+    //     $this->loadViewsFrom(__DIR__ . '/resources/views', 'esintel');
+    // }
 
     /**
      * Import routes
@@ -160,27 +160,27 @@ class EsintelServiceProvider extends AbstractSeatPlugin
     /**
      * Import translations
      */
-    private function addTranslations()
-    {
-        $this->loadTranslationsFrom(__DIR__ . '/lang', 'seat-connector');
-    }
+    // private function addTranslations()
+    // {
+    //     $this->loadTranslationsFrom(__DIR__ . '/lang', 'seat-connector');
+    // }
 
     /**
      * Import API endpoints
      */
-    private function addApiEndpoints()
-    {
-        $current_annotations = config('l5-swagger.paths.annotations');
-        if (! is_array($current_annotations))
-            $current_annotations = [$current_annotations];
+    // private function addApiEndpoints()
+    // {
+    //     $current_annotations = config('l5-swagger.paths.annotations');
+    //     if (! is_array($current_annotations))
+    //         $current_annotations = [$current_annotations];
 
-        config([
-            'l5-swagger.paths.annotations' => array_unique(array_merge($current_annotations, [
-                __DIR__ . '/Http/Resources',
-                __DIR__ . '/Http/Controllers/Api/V2',
-            ])),
-        ]);
-    }
+    //     config([
+    //         'l5-swagger.paths.annotations' => array_unique(array_merge($current_annotations, [
+    //             __DIR__ . '/Http/Resources',
+    //             __DIR__ . '/Http/Controllers/Api/V2',
+    //         ])),
+    //     ]);
+    // }
 
     /**
      * Register events listeners
