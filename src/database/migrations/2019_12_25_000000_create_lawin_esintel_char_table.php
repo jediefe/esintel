@@ -11,10 +11,11 @@ class CreateLawinEsintelCharTable extends Migration
         Schema::create('lawin_esintel_chars', function(Blueprint $table){
             $table->increments('id');
             $table->integer('character_id')->unsigned()->unique();
-            $table->integer('main_character_id')->unsigned();
+            $table->integer('main_character_id')->unsigned()->nullable();
             $table->tinyInteger('es')->unsigned();
             $table->tinyInteger('intel_category')->unsigned()->nullable();
             $table->text('intel_text')->nullable();
+            $table->timestamps();
         });
 
         Schema::create('lawin_esintel_categories', function(Blueprint $table){

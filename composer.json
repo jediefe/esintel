@@ -1,9 +1,9 @@
 {
     "name": "lawin/esintel",
-    "version": "0.1",
     "description": "RHP's ES intel plugin for SeAT",
     "type": "seat-plugin",
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
+    "prefer-stable": false,
     "license": "GPL-3.0-or-later",
     "authors": [
         {
@@ -17,9 +17,9 @@
         }
     },
     "require": {
-        "eveseat/services": "^3.0",
-        "eveseat/web": "^3.0",
-        "eveseat/api": "^3.0"
+        "eveseat/services": "~1",
+        "eveseat/web": "~3",
+        "eveseat/api": "~3"
     },
     "extra": {
         "laravel": {
