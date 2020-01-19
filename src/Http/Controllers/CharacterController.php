@@ -19,9 +19,9 @@ class CharacterController extends Controller {
 
         // First Try: Set static data
 
-        $character = new Character;
-        $character->character_id = 95319007;
-        $character->es = 0;
+        $character = Character::updateOrCreate(
+            ['character_id'=>95319007],
+            ['es' => 0, 'intel_category' => null]);
 
         $character->save();
     }
