@@ -41,7 +41,7 @@ class EsintelServiceProvider extends AbstractSeatPlugin
         // $this->addCommands();
         $this->addMigrations();
         $this->addRoutes();
-        // $this->addViews();
+        $this->addViews();
         // $this->addTranslations();
         // $this->addApiEndpoints();
         // $this->addEvents();
@@ -142,10 +142,10 @@ class EsintelServiceProvider extends AbstractSeatPlugin
     /**
      * Register views
      */
-    // private function addViews()
-    // {
-    //     $this->loadViewsFrom(__DIR__ . '/resources/views', 'esintel');
-    // }
+    private function addViews()
+    {
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'esintel');
+    }
 
     /**
      * Import routes

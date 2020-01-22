@@ -2,15 +2,20 @@
 
 Route::group(
     [
-        'middleware' => ['bouncer:esintel.create'],
+        'namespace' => 'Lawin\Seat\Esintel\Http\Controllers',
+        'middleware' => ['web', 'auth', 'bouncer:esintel.create'],
+        'prefix' => 'esintel',
     ], function () {
         Route::get('character/create', [
             'as' => 'esintel.character.create',
+            'uses' => 'CharacterController@createIndex',
+        ]);
+        Route::post('character/create', [
+            'as' => 'esintel.character.create',
             'uses' => 'CharacterController@create',
         ]);
-        Route:post('character/add', [
-            'as' => 'esintel.character.add',
-            'uses' => 'CharacterController@store',
+        Route::get('character/{id}', [
+            'uses' => 'CharacterController@show',
         ]);
     }
-)
+);
