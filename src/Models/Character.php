@@ -25,6 +25,13 @@ class Character extends Model {
     ];
 
 
+    protected $appends = [
+        'name',
+        'maincharname'
+    ];
+
+
+
     public function findAlts() {
         $main = Character::where(
             'character_id', $this->main_character_id)->get();
@@ -36,6 +43,7 @@ class Character extends Model {
     public function chars() {
         return $this->all();
     }
+
 
 
     public static function findByName(string $charname) {
@@ -51,9 +59,50 @@ class Character extends Model {
         }
     }
 
+
+
     public function exists() {
         return $this->where(
             'character_id', '=', $this->character_id)->exists();
+    }
+
+
+
+    public function getNameAttribute() {
+        return $this->getNameById($this->character_id);
+    }
+
+
+
+    public function getMaincharnameAttribute() {
+        if (isset($this->main_character_id)) {
+            return $this->getNameById($this->main_character_id);
+        }
+        else {
+            return "";
+        }
+
+    }
+
+
+    private static function getNameById($id){
+        $esi = new Eseye();
+        $reply = $esi->invoke(
+                    'get',
+                    '/characters/{character_id}',
+                    ["character_id" => $id]
+                 );
+        return $reply->name;
+    }
+
+
+    public function getPortraitUrl(int $size=128){
+
+        if (!in_array($size, [32, 64, 128, 256, 512, 1024])){
+            $size=128;
+        }
+
+         return "https://images.evetech.net/characters/" . $this->character_id . "/portrait?size=" . $size;
     }
 
 

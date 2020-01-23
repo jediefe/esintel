@@ -29,23 +29,65 @@ class CharacterController extends Controller {
         $character->character_id = $data['charid'];
 
         if ($character->exists()) {
-            redirect()->route('character/edit/' . $character->character_id);
+            return redirect()->route('edit', $character->character_id);
+        } else {
+            if (array_key_exists('maincharid', $data)) {
+                $character->main_character_id = $data['maincharid'];
+            }
+            $character->es = $data['eslevel'];
+            if (array_key_exists('escategory', $data)){
+                $character->intel_category = $data['escategory'];
+            }
+            if (array_key_exists('estext', $data)) {
+                $character->intel_text = $data['estext'];
+            }
+
+            $character->save();
+
+            return redirect()->back()->with('success', 'New character entry has been created successfully.')->withInput();
         }
+    }
+
+
+    public function editGet(int $id) {
+        $character = Character::where('character_id', $id)->first();
+        return view('esintel::create', ["character"=>$character]);
+    }
+
+
+    public function editPost(CharacterCreateRequest $request, int $id){
+
+        $character = Character::where('character_id', $id)->first();
+        if (!$character){
+            return redirect()->route('esintel.create');
+        }
+        $data = $request->validated();
+
+        if (!($character->character_id == $data['charid'])) {
+            return redirect()->back()
+                             ->withErrors(['msg', 'Character ID mismatch!']);
+            }
 
         if (array_key_exists('maincharid', $data)) {
             $character->main_character_id = $data['maincharid'];
+        } else {
+            $character->main_character_id = null;
         }
+
         $character->es = $data['eslevel'];
+
         if (array_key_exists('escategory', $data)){
             $character->intel_category = $data['escategory'];
         }
+
         if (array_key_exists('estext', $data)) {
             $character->intel_text = $data['estext'];
+        } else {
+            $character->intel_text = null;
         }
 
-        $character->save();
+        $character->update();
 
-        return redirect()->back()->with('success', 'New character entry has been created successfully.')->withInput();
+        return redirect()->back();
     }
-
 }
