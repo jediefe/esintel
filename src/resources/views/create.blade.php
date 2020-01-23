@@ -85,8 +85,45 @@
         </div>
 
         @if(isset($character))
-            <div class="col-md-2">
-                <img class="image-responsive img-circle" src={{ $character->getPortraitUrl(256) }}>
+            <div class="col-md-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> About {{ $character->name }} </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <img class="image-responsive img-circle center-block" style="margin-bottom: 1rem;" src={{ $character->getPortraitUrl(128) }}>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th> Name: </th>
+                                            <td> {{ $character->name }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td> <b> Corporation: </b> </td>
+                                            <td> <img src={{ $character->getCorpLogoUrl(32)}} img-circle style="width:16px;">
+                                                 {{ $character->corp->name }} [{{ $character->corp->ticker }}]
+                                             </td>
+                                        </tr>
+                                        @if(isset($character->alliance))
+                                        <tr>
+                                            <th> Alliance: </th>
+                                            <td> <img src={{$character->getAllianceLogoUrl(32)}} img-circle style="width:16px;">
+                                                 {{$character->alliance->name}} [{{$character->alliance->ticker}}]
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         @endif
 

@@ -27,9 +27,11 @@ class Character extends Model {
 
     protected $appends = [
         'name',
-        'maincharname'
+        'maincharname',
+        'info',
+        'corp',
+        'alliance'
     ];
-
 
 
     public function findAlts() {
@@ -43,7 +45,6 @@ class Character extends Model {
     public function chars() {
         return $this->all();
     }
-
 
 
     public static function findByName(string $charname) {
@@ -73,6 +74,21 @@ class Character extends Model {
     }
 
 
+    public function getInfoAttribute() {
+        return $this->charinfo();
+    }
+
+
+
+    public function getCorpAttribute() {
+        return $this->corpinfo();
+    }
+
+
+    public function getAllianceAttribute() {
+        return $this->allianceinfo();
+    }
+
 
     public function getMaincharnameAttribute() {
         if (isset($this->main_character_id)) {
@@ -81,7 +97,40 @@ class Character extends Model {
         else {
             return "";
         }
+    }
 
+
+    public function charinfo() {
+        $esi = new Eseye();
+        $reply = $esi->invoke(
+                    'get',
+                    '/characters/{character_id}',
+                    ["character_id" => $this->character_id]
+                 );
+        return $reply;
+    }
+
+
+    public function corpinfo() {
+        $esi = new Eseye();
+        $reply = $esi->invoke(
+            'get',
+            '/corporations/{corporation_id}',
+            ["corporation_id" => $this->info->corporation_id]
+        );
+        return $reply;
+    }
+
+    public function allianceinfo() {
+        if(isset($this->info->alliance_id)) {
+            $esi = new Eseye();
+            return $esi->invoke(
+                'get',
+                '/alliances/{alliance_id}/',
+                ["alliance_id" => $this->info->alliance_id]);
+        } else {
+            return null;
+        }
     }
 
 
@@ -105,5 +154,24 @@ class Character extends Model {
          return "https://images.evetech.net/characters/" . $this->character_id . "/portrait?size=" . $size;
     }
 
+
+    public function getCorpLogoUrl(int $size=128) {
+        if (!in_array($size, [32, 64, 128, 256, 512, 1024])) {
+            $size = 128;
+        }
+
+        return "https://images.evetech.net/corporations/" .
+            $this->info->corporation_id . "/logo?size=" . $size;
+    }
+
+
+    public function getAllianceLogoUrl(int $size=128) {
+        if (!in_array($size, [32, 64, 128, 256, 512, 1024])) {
+            $size = 128;
+        }
+
+        return "https://images.evetech.net/alliances/" .
+            $this->info->alliance_id . "/logo?size=" . $size;
+    }
 
 }
