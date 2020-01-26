@@ -101,33 +101,51 @@ class Character extends Model {
 
 
     public function charinfo() {
+
+        if ($cached_entry = cache('esintel.charinfo:' . $this->character_id))
+        {
+            return $cached_entry;
+        }
+
         $esi = new Eseye();
         $reply = $esi->invoke(
                     'get',
                     '/characters/{character_id}',
                     ["character_id" => $this->character_id]
                  );
+        cache(['esintel.charinfo:' . $this->character_id => $reply], 86400);
         return $reply;
     }
 
 
     public function corpinfo() {
+        if ($cache_entry = cache('esintel.corpinfo:' . $this->info->corporation_id)) {
+            return $cache_entry;
+        }
+
         $esi = new Eseye();
         $reply = $esi->invoke(
             'get',
             '/corporations/{corporation_id}',
             ["corporation_id" => $this->info->corporation_id]
         );
+        cache(["esintel.corpinfo:" . $this->info->corporation_id => $reply], 86400);
         return $reply;
     }
 
     public function allianceinfo() {
         if(isset($this->info->alliance_id)) {
+            if ($cached_entry = cache('esintel.alliance:' . $this->info->alliance_id)) {
+                return $cached_entry;
+            }
+
             $esi = new Eseye();
-            return $esi->invoke(
+            $reply = $esi->invoke(
                 'get',
                 '/alliances/{alliance_id}/',
                 ["alliance_id" => $this->info->alliance_id]);
+            cache(["esintel.alliance:" . $this->info->alliance_id => $reply], 86400);
+            return $reply;
         } else {
             return null;
         }
@@ -135,6 +153,11 @@ class Character extends Model {
 
 
     private static function getNameById($id){
+
+        if ($cached_entry = cache('name_id:' . $id)) {
+            return $cached_entry;
+        }
+
         $esi = new Eseye();
         $reply = $esi->invoke(
                     'get',
