@@ -30,7 +30,8 @@ class Character extends Model {
         'maincharname',
         'info',
         'corp',
-        'alliance'
+        'alliance',
+        'related',
     ];
 
 
@@ -39,8 +40,14 @@ class Character extends Model {
             'character_id', $this->main_character_id)->get();
         $alts = Character::where(
             'main_character_id', $this->main_character_id)->get();
-        return $main->merge($alts);
+        $main = $main->merge($alts);
+        // return $main->all();
+        $filtered = $main->reject(function ($value, $key) {
+            return $this->character_id;
+        });
+        return $filtered->all();
     }
+
 
     public function chars() {
         return $this->all();
@@ -87,6 +94,11 @@ class Character extends Model {
 
     public function getAllianceAttribute() {
         return $this->allianceinfo();
+    }
+
+
+    public function getRelatedAttribute() {
+        return $this->findAlts();
     }
 
 

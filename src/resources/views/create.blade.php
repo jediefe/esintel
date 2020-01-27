@@ -124,6 +124,32 @@
                         </div>
                     </div>
                 </div>
+
+                <div class = "panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> Related Characters </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                @if($character->related)
+                                @foreach ($character->related as $alt)
+                                    <div class="col-xs-4 text-center">
+                                        <div class="row">
+                                            <img class="img-thumbnail" src={{$alt->getPortraitUrl(64)}}>
+                                        </div>
+                                        <div class="row">
+                                            {{ $alt->name }}
+                                        </div>
+                                    </div>
+                                @endforeach
+                                @else
+                                    None
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         @endif
 
