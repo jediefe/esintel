@@ -27,12 +27,30 @@ class Character extends Model {
 
     protected $appends = [
         'name',
-        'maincharname',
+        'mainchar',
         'info',
         'corp',
         'alliance',
         'related',
+        'history'
     ];
+
+
+    public function __construct() {
+
+    }
+
+
+    public static function newFromId(int $id) {
+
+        $character = new self();
+        $character->character_id = $id;
+        $character->name = Character::getNameById($id);
+        $character->es = null;
+        $character->intel_category = null;
+        $character->intel_text = null;
+        return $character;
+    }
 
 
     public function findAlts() {
@@ -40,10 +58,12 @@ class Character extends Model {
             'character_id', $this->main_character_id)->get();
         $alts = Character::where(
             'main_character_id', $this->main_character_id)->get();
-        $main = $main->merge($alts);
+        $mainalts = Character::where(
+            'main_character_id', $this->character_id)->get();
+        $main = $main->merge($alts)->merge($mainalts);
         // return $main->all();
-        $filtered = $main->reject(function ($value, $key) {
-            return $this->character_id;
+        $filtered = $main->reject(function ($value) {
+            return $value->character_id == $this->character_id;
         });
         return $filtered->all();
     }
@@ -102,9 +122,14 @@ class Character extends Model {
     }
 
 
-    public function getMaincharnameAttribute() {
+    public function getHistoryAttribute() {
+        return $this->history();
+    }
+
+
+    public function getMaincharAttribute() {
         if (isset($this->main_character_id)) {
-            return $this->getNameById($this->main_character_id);
+            return Character::where('character_id', $this->main_character_id)->first();
         }
         else {
             return "";
@@ -164,7 +189,28 @@ class Character extends Model {
     }
 
 
-    private static function getNameById($id){
+    public function history() {
+        if ($cache_entry = cache('esintel.corphistory:' . $this->character_id)) {
+            return $cache_entry;
+        }
+
+        $esi = new Eseye();
+        $reply = collect($esi->invoke(
+            'get',
+            '/characters/{character_id}/corporationhistory/',
+            ["character_id" => $this->character_id]));
+        foreach ($reply as $h) {
+            $corpname = Character::getCorpById($h->corporation_id);
+            $h->corporation_name = $corpname;
+        }
+        cache(["esintel.corphistory:" . $this->character_id => $reply], 86400);
+        return $reply;
+    }
+
+
+
+
+    public static function getNameById($id){
 
         if ($cached_entry = cache('name_id:' . $id)) {
             return $cached_entry;
@@ -180,6 +226,22 @@ class Character extends Model {
     }
 
 
+    public static function getCorpById($id){
+
+        if ($cached_entry = cache('corporation_id:' . $id)) {
+            return $cached_entry;
+        }
+
+        $esi = new Eseye();
+        $reply = $esi->invoke(
+                    'get',
+                    '/corporations/{corporation_id}',
+                    ["corporation_id" => $id]
+                 );
+        return $reply->name;
+    }
+
+
     public function getPortraitUrl(int $size=128){
 
         if (!in_array($size, [32, 64, 128, 256, 512, 1024])){
@@ -187,6 +249,16 @@ class Character extends Model {
         }
 
          return "https://images.evetech.net/characters/" . $this->character_id . "/portrait?size=" . $size;
+    }
+
+
+    public static function getUnknownPortraitUrl(int $id, int $size=128){
+
+        if (!in_array($size, [32, 64, 128, 256, 512, 1024])){
+            $size=128;
+        }
+
+         return "https://images.evetech.net/characters/" . $id . "/portrait?size=" . $size;
     }
 
 

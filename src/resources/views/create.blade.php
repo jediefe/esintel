@@ -38,8 +38,8 @@
                         </div>
                         <div class="form-group">
                             <label for="maincharname"> Main Character Name (optional) </label>
-                            @if(isset($character))
-                                <input type="text" id="maincharname" name="maincharname" class="form-control" value="{{ $character->maincharname }}" />
+                            @if(isset($character->main_character_id))
+                                <input type="text" id="maincharname" name="maincharname" class="form-control" value="{{ $character->mainchar->name }}" />
                             @else
                                 <input type="text" id="maincharname" name="maincharname" class="form-control" value="" />
                             @endif
@@ -139,7 +139,7 @@
                                             <img class="img-thumbnail" src={{$alt->getPortraitUrl(64)}}>
                                         </div>
                                         <div class="row">
-                                            {{ $alt->name }}
+                                            <a href={{ route("edit", ["id" => $alt->character_id]) }}> {{ $alt->name }} </a>
                                         </div>
                                     </div>
                                 @endforeach

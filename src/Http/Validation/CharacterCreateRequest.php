@@ -3,9 +3,6 @@
 namespace Lawin\Seat\Esintel\Http\Validation;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Seat\Eseye\Eseye;
-use Seat\Eseye\Containers\EsiAuthentication;
-use Seat\Eseye\Configuration;
 use Lawin\Seat\Esintel\Models\Character;
 
 class CharacterCreateRequest extends FormRequest {

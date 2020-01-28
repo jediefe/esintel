@@ -42,6 +42,7 @@ class EsintelServiceProvider extends AbstractSeatPlugin
         $this->addMigrations();
         $this->addRoutes();
         $this->addViews();
+        $this->publications();
         // $this->addTranslations();
         // $this->addApiEndpoints();
         // $this->addEvents();
@@ -155,6 +156,13 @@ class EsintelServiceProvider extends AbstractSeatPlugin
         if (! $this->app->routesAreCached()) {
             include __DIR__ . '/Http/routes.php';
         }
+    }
+
+
+    private function publications() {
+        $this->publishes([
+            __DIR__ . '/resources/assets' => public_path('esintel'),
+        ]);
     }
 
     /**
