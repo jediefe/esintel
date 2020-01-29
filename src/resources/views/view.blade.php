@@ -223,7 +223,34 @@
                         </div>
                         @endif
                     </div>
-                    {{-- End of second row --}}
+                    {{-- End of third row --}}
+                    {{-- Fourth row --}}
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"> Metadata </h3>
+                                </div>
+                                <div class="panel-body text-left">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th> Created at: </th>
+                                                    <td> {{ carbon($character->created_at)->toDateTimeString() }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th> Updated at: </th>
+                                                    <td> {{ carbon($character->updated_at)->toDateTimeString() }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- End of fourth row --}}
                 <div>
             </div>
         </div>
