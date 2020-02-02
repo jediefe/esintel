@@ -49,6 +49,18 @@
                     <div class="row">
                         <h3> {{$character->name}}</h3>
                     </div>
+                    {{-- Insert row for creation or edit --}}
+                    @if(auth()->user()->has("esintel.create", true))
+                    <div class="row" style="padding-bottom: 1em;">
+                        <div class="col-xs-4-8">
+                            @if($characterInDB)
+                            <a href="{{ route("edit", array($character->character_id)) }}" class="btn btn-warning"> Edit Character </a>
+                            @else
+                            <a href="{{ route("esintel.create") }}" class="btn btn-success"> Create Character </a>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
                     {{-- Row below portrait and name contains Ranking, Metadata --}}
                     <div class="row">
                         <div class="col-xs-4">
@@ -158,7 +170,7 @@
                                         <img src="{{ $character->mainchar->getPortraitUrl(64) }}" class="img-thumbnail" />
                                     </div>
                                     <div class="row">
-                                        <h4> <a href={{ route("esintel.view", ["id" => $character->main_character_id]) }} > {{ $character->mainchar->name }} </a></h4>
+                                        <h4> <a href={{ route("esintel.view", ["id" => $character->main_character_id]) }}> {{ $character->mainchar->name }} </a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +216,9 @@
                                 </div>
                                 <div class="panel-body">
                                     {{-- This is a placeholder until the logic is written --}}
-                                    <h4> Controller missing </h4>
+                                    @if($characterInDB)
+                                    <h4> {{ $category_name }} </h4>
+                                    @endif
                                 </div>
                             </div>
                         </div>

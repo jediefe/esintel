@@ -21,6 +21,8 @@ class CreateLawinEsintelCharTable extends Migration
         Schema::create('lawin_esintel_categories', function(Blueprint $table){
             $table->increments('id');
             $table->string('category_name');
+            $table->boolean('is_active')->default(1);
+            $table->timestamps();
         });
     }
 

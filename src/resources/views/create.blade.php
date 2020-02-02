@@ -59,7 +59,11 @@
                         <div class="form-group">
                             <label for="escategory"> ES Category </label>
                             <select name="escategory" id="escategory" class="form-control">
-                                <option value=0> 0 </option>
+                                @forelse($categories as $cat)
+                                <option value="{{ $cat->id }}"> {{ $cat->category_name }} </option>
+                                @empty
+                                <option value="0"> No categories in database </option>
+                                @endforelse
                             </select>
                         </div>
                         <div class="form-group">

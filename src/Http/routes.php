@@ -39,3 +39,24 @@ Route::group(
         ])->where(['id' => '[0-9]+']);
     }
 );
+
+Route::group(
+    [
+        'namespace' => 'Lawin\Seat\Esintel\Http\Controllers',
+        'middleware' => ['web', 'auth', 'bouncer:superuser'],
+        'prefix' => 'esintel',
+    ], function () {
+        Route::get('categories/status/',[
+            'as' => 'esintel.categories.status',
+            'uses' => 'CategoryController@toggleCategory',
+        ]);
+        Route::get('categories/', [
+            'as' => 'esintel.categories',
+            'uses' => 'CategoryController@index'
+        ]);
+        Route::post('categories/',[
+            'as' => 'esintel.categories',
+            'uses' => 'CategoryController@createCategory',
+        ]);
+    }
+);
