@@ -56,11 +56,14 @@ class Character extends Model {
     public function findAlts() {
         $main = Character::where(
             'character_id', $this->main_character_id)->get();
-        $alts = Character::where(
-            'main_character_id', $this->main_character_id)->get();
+        if($this->main_character_id){
+            $alts = Character::where(
+                'main_character_id', $this->main_character_id)->get();
+            $main = $main->merge($alts);
+        }
         $mainalts = Character::where(
             'main_character_id', $this->character_id)->get();
-        $main = $main->merge($alts)->merge($mainalts);
+        $main = $main->merge($mainalts);
         // return $main->all();
         $filtered = $main->reject(function ($value) {
             return $value->character_id == $this->character_id;

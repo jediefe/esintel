@@ -165,18 +165,10 @@ class CharacterController extends Controller {
     }
 
 
+
     public function request(CharacterSearchRequest $request){
         $data = $request->validated();
-        return redirect()->route('esintel.view', $data['charid'])->withInput();
-        // $character = Character::where('character_id', $data['charid'])->first();
-        // if ($character) {
-        //     return view('esintel::view', [
-        //         'characterInDB' => true,
-        //         'character' => $character,
-        //         'id' => $character->character_id]);
-        // } else {
-        //     return redirect()->route('esintel.view', [$data['charid']])->withInput()
-        //     ])
-        // }
+        return redirect()->route('esintel.view', $data['charid'])
+            ->withInput();
     }
 }

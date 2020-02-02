@@ -63,7 +63,7 @@
                     @endif
                     {{-- Row below portrait and name contains Ranking, Metadata --}}
                     <div class="row">
-                        <div class="col-xs-4">
+                        <div class="col-md-4">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"> Ranking </h3>
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         {{-- Panel with character information --}}
-                        <div class="col-xs-4">
+                        <div class="col-md-4">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"> Character Information </h3>
@@ -123,7 +123,7 @@
                         </div>
                         {{-- End Panel Character Information --}}
                         {{-- Panel Corporation History --}}
-                        <div class="col-xs-4">
+                        <div class="col-md-4">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <h3 class="panel-title"> Corporation History </h3>
@@ -153,6 +153,33 @@
                             </div>
                         </div>
                         {{-- End Corporation History --}}
+                        {{-- Metadata Panel --}}
+                        @if($characterInDB)
+                        <div class="col-md-4">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"> Metadata </h3>
+                                </div>
+                                <div class="panel-body text-left">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th> Created at: </th>
+                                                    <td> {{ carbon($character->created_at)->toDateTimeString() }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th> Updated at: </th>
+                                                    <td> {{ carbon($character->updated_at)->toDateTimeString() }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        {{-- End Metadata Panel --}}
                         {{-- Panel ES Category --}}
                     </div>
                     {{-- End of first row --}}
@@ -208,7 +235,7 @@
                     {{-- End of second row --}}
                     {{-- Third row --}}
                     <div class="row">
-                        @if(auth()->user()->has('esintel.viewcategory', true))
+                        @if(auth()->user()->has('esintel.viewcategory', true) and $characterInDB)
                         <div class="col-xs-4">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
@@ -216,15 +243,13 @@
                                 </div>
                                 <div class="panel-body">
                                     {{-- This is a placeholder until the logic is written --}}
-                                    @if($characterInDB)
                                     <h4> {{ $category_name }} </h4>
-                                    @endif
                                 </div>
                             </div>
                         </div>
                         @endif
                         {{-- Intel Description Field --}}
-                        @if(auth()->user()->has('esintel.viewdescription', true))
+                        @if(auth()->user()->has('esintel.viewdescription', true) and $characterInDB)
                         <div class="col-xs-8">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
@@ -240,29 +265,7 @@
                     {{-- End of third row --}}
                     {{-- Fourth row --}}
                     <div class="row">
-                        <div class="col-xs-4">
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"> Metadata </h3>
-                                </div>
-                                <div class="panel-body text-left">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr>
-                                                    <th> Created at: </th>
-                                                    <td> {{ carbon($character->created_at)->toDateTimeString() }} </td>
-                                                </tr>
-                                                <tr>
-                                                    <th> Updated at: </th>
-                                                    <td> {{ carbon($character->updated_at)->toDateTimeString() }} </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     {{-- End of fourth row --}}
                 <div>
