@@ -17,9 +17,8 @@
         }
     },
     "require": {
-        "eveseat/services": "~1",
-        "eveseat/web": "~3",
-        "eveseat/api": "~3"
+        "eveseat/services": "~3",
+        "eveseat/web": "~3"
     },
     "extra": {
         "laravel": {
