@@ -35,6 +35,13 @@ class Character extends Model {
         'history'
     ];
 
+    protected $hidden = [
+        'corp',
+        'alliance',
+        'history',
+        'related'
+    ];
+
 
     public function __construct() {
 
@@ -100,33 +107,51 @@ class Character extends Model {
 
 
     public function getNameAttribute() {
-        return $this->getNameById($this->character_id);
+        if(isset($this->character_id))
+        {
+            return $this->getNameById($this->character_id);
+        }
     }
 
 
     public function getInfoAttribute() {
-        return $this->charinfo();
+        if(isset($this->character_id))
+        {
+            return $this->charinfo();
+        }
     }
 
 
 
     public function getCorpAttribute() {
-        return $this->corpinfo();
+        if(isset($this->character_id))
+        {
+            return $this->corpinfo();
+        }
     }
 
 
     public function getAllianceAttribute() {
-        return $this->allianceinfo();
+        if(isset($this->character_id))
+        {
+            return $this->allianceinfo();
+        }
     }
 
 
     public function getRelatedAttribute() {
-        return $this->findAlts();
+        if(isset($this->character_id))
+        {
+            return $this->findAlts();
+        }
     }
 
 
     public function getHistoryAttribute() {
-        return $this->history();
+        if (isset($this->character_id))
+        {
+            return $this->history();
+        }
     }
 
 
@@ -214,18 +239,20 @@ class Character extends Model {
 
 
     public static function getNameById($id){
+        if($id)
+        {
+            if ($cached_entry = cache('name_id:' . $id)) {
+                return $cached_entry;
+            }
 
-        if ($cached_entry = cache('name_id:' . $id)) {
-            return $cached_entry;
+            $esi = new Eseye();
+            $reply = $esi->invoke(
+                        'get',
+                        '/characters/{character_id}',
+                        ["character_id" => $id]
+                     );
+            return $reply->name;
         }
-
-        $esi = new Eseye();
-        $reply = $esi->invoke(
-                    'get',
-                    '/characters/{character_id}',
-                    ["character_id" => $id]
-                 );
-        return $reply->name;
     }
 
 
@@ -282,6 +309,29 @@ class Character extends Model {
 
         return "https://images.evetech.net/alliances/" .
             $this->info->alliance_id . "/logo?size=" . $size;
+    }
+
+
+
+    public function intel_category_name()
+    {
+        if(isset($this->intel_category))
+        {
+            $category = Category::find($this->intel_category);
+            if($category)
+            {
+                return $category->category_name;
+            }
+            else
+            {
+                return "";
+            }
+
+        }
+        else
+        {
+            return "";
+        }
     }
 
 }

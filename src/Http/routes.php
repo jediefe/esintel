@@ -60,3 +60,18 @@ Route::group(
         ]);
     }
 );
+
+Route::group(
+    [
+        'namespace' => 'Lawin\Seat\Esintel\Http\Controllers',
+        'middleware' => ['web', 'auth', 'bouncer:esintel.view_table'],
+        'prefix' => 'esintel',
+    ], function()
+    {
+        Route::get('list/', [
+            'as' => 'esintel.list',
+            'name' => 'esintel.list',
+            'uses' => 'CharacterController@userTable',
+        ]);
+    }
+);

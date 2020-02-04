@@ -24,6 +24,14 @@ return [
                 'permission' => 'esintel.create',
             ],
             [
+                'name' => 'View All',
+                'label' => 'View All',
+                'plural' => false,
+                'icon' => 'fa-table',
+                'route' => 'esintel.list',
+                'permission' => 'esintel.view_table',
+            ],
+            [
                 'name' => 'Manage Categories',
                 'label' => 'Manage Categories',
                 'plural' => false,

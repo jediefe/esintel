@@ -50,7 +50,7 @@
                         <h3> {{$character->name}}</h3>
                     </div>
                     {{-- Insert row for creation or edit --}}
-                    @if(auth()->user()->has("esintel.create", true))
+                    @if(auth()->user()->has("esintel.create", false))
                     <div class="row" style="padding-bottom: 1em;">
                         <div class="col-xs-4-8">
                             @if($characterInDB)
@@ -184,7 +184,7 @@
                     </div>
                     {{-- End of first row --}}
                     {{-- Second row --}}
-                    @if(auth()->user()->has('esintel.viewrelated', true))
+                    @if(auth()->user()->has('esintel.view_related', false))
                     <div class="row">
                         @if($character->mainchar)
                         <div class="col-xs-4">
@@ -235,7 +235,7 @@
                     {{-- End of second row --}}
                     {{-- Third row --}}
                     <div class="row">
-                        @if(auth()->user()->has('esintel.viewcategory', true) and $characterInDB)
+                        @if(auth()->user()->has('esintel.view_category', false) and $characterInDB)
                         <div class="col-xs-4">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
@@ -249,7 +249,7 @@
                         </div>
                         @endif
                         {{-- Intel Description Field --}}
-                        @if(auth()->user()->has('esintel.viewdescription', true) and $characterInDB)
+                        @if(auth()->user()->has('esintel.view_description', false) and $characterInDB)
                         <div class="col-xs-8">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
