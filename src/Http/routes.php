@@ -6,6 +6,22 @@ Route::group(
         'middleware' => ['web', 'auth', 'bouncer:esintel.create'],
         'prefix' => 'esintel',
     ], function () {
+        Route::get('character/create', [
+            'as'   => 'esintel.create',
+            'uses' => 'CharacterController@createIndex',
+        ]);
+        Route::post('character/create', [
+            'uses' => 'CharacterController@create',
+        ]);
+    }
+);
+
+Route::group(
+    [
+        'namespace' => 'Lawin\Seat\Esintel\Http\Controllers',
+        'middleware' => ['web', 'auth', 'bouncer:esintel.edit'],
+        'prefix' => 'esintel',
+    ], function () {
         Route::get('character/edit/{id}', [
             'as'   => 'edit',
             'uses' => 'CharacterController@editGet',
@@ -14,13 +30,6 @@ Route::group(
             'as'   => 'edit',
             'uses' => 'CharacterController@editPost',
         ])->where(['id' => '[0-9]+']);
-        Route::get('character/create', [
-            'as'   => 'esintel.create',
-            'uses' => 'CharacterController@createIndex',
-        ]);
-        Route::post('character/create', [
-            'uses' => 'CharacterController@create',
-        ]);
     }
 );
 

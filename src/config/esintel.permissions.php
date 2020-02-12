@@ -8,5 +8,6 @@ return [
         "view_description",
         "view_table",
         "create",
+        "edit"
     ],
 ];

@@ -53,9 +53,9 @@
                     @if(auth()->user()->has("esintel.create", false))
                     <div class="row" style="padding-bottom: 1em;">
                         <div class="col-xs-4-8">
-                            @if($characterInDB)
+                            @if($characterInDB && (auth()->user()->has('esintel.edit', false)))
                             <a href="{{ route("edit", array($character->character_id)) }}" class="btn btn-warning"> Edit Character </a>
-                            @else
+                            @elseif(!$characterInDB)
                             <a href="{{ route("esintel.create") }}" class="btn btn-success"> Create Character </a>
                             @endif
                         </div>

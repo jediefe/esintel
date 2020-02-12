@@ -29,8 +29,8 @@ class UserListDataTable extends DataTable
 
     public function query()
     {
-        $characters = Character::select('id', 'character_id', 'main_character_id', 'es', 'intel_category');
-        return $characters;
+        # $characters = Character::select('id', 'character_id', 'main_character_id', 'es', 'intel_category', 'name');
+        return Character::orderBy('id', 'asc');
     }
 
 
@@ -71,9 +71,11 @@ class UserListDataTable extends DataTable
             ->editColumn('es', function(Character $char)
                 {
                     return '<span class="es-table-' . $char->es . '" style="font-weight: bold;">' . $char->es . '</span>';
-                }
-
-                )
+                })
+            ->orderColumn('intel_category_text', '-intel_category $1')
+            ->orderColumn('es', '-es $1')
+            ->orderColumn('name', '-character_id $1')
+            ->orderColumn('maincharacter', '-main_character_id $1')
             ->rawColumns(['name', 'maincharacter', 'corporation', 'alliance', 'es'])
             ->make(true);
     }
@@ -90,12 +92,12 @@ class UserListDataTable extends DataTable
             [
                 'data' => 'name',
                 'title' => 'Character',
-                'orderable' => false,
+                'orderable' => true,
             ],
             [
                 'data' => 'maincharacter',
                 'title' => 'Main Character',
-                'orderable' => false,
+                'orderable' => true,
             ],
             [
                 'data' => 'corporation',
@@ -110,12 +112,12 @@ class UserListDataTable extends DataTable
             [
                 'data' => 'es',
                 'title' => 'ES',
-                'orderable' => false,
+                'orderable' => true,
             ],
             [
                 'data' => 'intel_category_text',
                 'title' => 'Category',
-                'orderable' => false,
+                'orderable' => true,
             ],
         ];
     }

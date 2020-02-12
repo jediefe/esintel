@@ -33,7 +33,7 @@
                             @if(isset($character))
                                 <input type="text" id="charname" name="charname" class="form-control" readonly value="{{ $character->name }}" />
                             @else
-                                <input type="text" id="charname" name="charname" class="form-control" value="" />
+                                <input type="text" id="charname" name="charname" class="form-control" value="{{old('charname')}}" />
                             @endif
                         </div>
                         <div class="form-group">

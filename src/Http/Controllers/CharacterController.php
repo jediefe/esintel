@@ -37,7 +37,12 @@ class CharacterController extends Controller {
         $character->character_id = $data['charid'];
 
         if ($character->exists()) {
-            return redirect()->route('edit', $character->character_id);
+            if(auth()->user()->has('esintel.edit', true)) {
+                return redirect()->route('edit', $character->character_id);
+            }
+            else {
+                return redirect()->route('esintel.view', $character->character_id)->withError('Character already exists in the database');
+            }
         }
         else
         {
