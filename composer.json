@@ -19,7 +19,7 @@
     "require": {
         "eveseat/services": "~3",
         "eveseat/web": "~3",
-        "eveseat/eseye": "~2"
+        "eveseat/eseye": "~1"
     },
     "extra": {
         "laravel": {
